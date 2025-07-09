@@ -22,14 +22,6 @@ static void sleep_seconds(float seconds) {
 #endif
 }
 
-static float get_time() {
-	static clock_t start_time = 0;
-	if (start_time == 0)
-		start_time = clock();
-
-	return (float)(clock() - start_time) / CLOCKS_PER_SEC;
-}
-
 typedef struct {
 	uint64_t x, y, height;
 	uint64_t frame_threshold;
@@ -43,7 +35,7 @@ typedef struct {
 	size_t length;
 } Droplets;
 
-void add_droplet(Droplets* droplets) {
+static void add_droplet(Droplets* droplets) {
 	Droplet droplet;
 	size_t i;
 
@@ -113,7 +105,7 @@ int main() {
 			color = droplet->frame_threshold;
 			attron(COLOR_PAIR(color));
 			for (j = droplet->y; j < droplet->height + droplet->y; j++) {
-				if (j >= getmaxy(stdscr) + 10) {
+				if (j >= (size_t)getmaxy(stdscr) + 10) {
 					droplet->decay = true;
 				}
 				mvprintw(j, droplet->x, "│");
