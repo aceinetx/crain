@@ -96,11 +96,12 @@ int main() {
 	add_droplet(&droplets);
 
 	for (;;) {
-		size_t i, j, color;
+		size_t i;
 		int k;
 
 		clear();
 		for (i = 0; i < droplets.length; i++) {
+			size_t j, color;
 			Droplet* droplet = &droplets.data[i];
 			color = droplet->frame_threshold;
 			attron(COLOR_PAIR(color));
